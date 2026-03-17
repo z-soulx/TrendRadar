@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+*.pyo
+output/news/
+output/rss/
+output/html/
+output/index.html
+*.db
+.env

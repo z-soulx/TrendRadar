@@ -1,6 +1,87 @@
+# =============================
+# TrendRadar 配置 - OTA酒店行业热点监控
+# Version: 6.5.0
+# =============================
+
+app:
+  timezone: "Asia/Shanghai"
+  show_version_update: false
+
+# === 热榜平台 ===
+platforms:
+  enabled: true
+  sources:
+    - id: "weibo"
+      name: "微博热搜"
+    - id: "baidu"
+      name: "百度热搜"
+    - id: "toutiao"
+      name: "今日头条"
+    - id: "douyin"
+      name: "抖音热榜"
+    - id: "zhihu"
+      name: "知乎热榜"
+    - id: "thepaper"
+      name: "澎湃新闻"
+    - id: "wallstreetcn"
+      name: "华尔街见闻"
+    - id: "cls"
+      name: "财联社"
+    - id: "ifeng"
+      name: "凤凰网"
+
+# === 报告模式 ===
+report:
+  mode: "incremental"
+  display_mode: "keyword"
+  rank_threshold: 50
+  max_news_per_keyword: 10
+
+# === 通知 ===
+# webhook_url 通过 GitHub Secrets 环境变量注入，不写入代码仓库
+notification:
+  enabled: true
+  channels:
+    wework:
+      msg_type: "markdown"
+
+# === RSS 信息源 ===
 rss:
+  enabled: true
+  freshness_filter:
+    enabled: true
+    max_age_days: 3
   feeds:
-    - name: OTA 官方动态
-      url: https://ota-official-site.com/rss
-    - name: 地方事业单位考试
-      url: https://province-jobsite.com/rss
+    - id: "36kr"
+      name: "36氪"
+      url: "https://36kr.com/feed"
+      max_items: 50
+      enabled: true
+
+# === 显示区域 ===
+display:
+  region_order: ["hotlist", "rss", "new_items"]
+  regions:
+    hotlist: true
+    new_items: true
+    rss: true
+    standalone: false
+    ai_analysis: false
+
+# === 存储 ===
+storage:
+  backend: "auto"
+  formats:
+    sqlite: true
+    txt: false
+    html: true
+  local:
+    data_dir: "output"
+    retention_days: 7
+
+# === 高级设置 ===
+advanced:
+  debug: false
+  crawler:
+    request_interval: 200
+    use_proxy: false
