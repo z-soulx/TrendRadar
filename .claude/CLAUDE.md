@@ -99,16 +99,27 @@ Config Loading → Crawl (Hotlist + RSS) → Store (SQLite/S3)
 | CLI | `python -m trendradar --test-notification` | Test notification channels |
 | MCP Server | `trendradar-mcp` / `mcp_server.server:run_server` | Start MCP tool server |
 
+## Local Execution Environment
+
+- **Conda environment**: `trendradar` (path: `/opt/miniconda3/envs/trendradar`)
+- **Python**: 3.12.11
+- **Activate**: `conda activate trendradar`
+- **Direct Python path**: `/opt/miniconda3/envs/trendradar/bin/python`
+
 ## Build & Run
 
 ```bash
+# Activate conda environment
+conda activate trendradar
+
 # Install dependencies
 pip install -r requirements.txt
-# or
-pip install -e .
 
-# Run
-python -m trendradar
+# Run (with WeChat Work webhook via env var)
+WEWORK_WEBHOOK_URL="https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=<KEY>" python -m trendradar
+
+# Or use direct Python path without activating conda
+/opt/miniconda3/envs/trendradar/bin/python -m trendradar
 
 # Docker
 cd docker && docker compose up -d

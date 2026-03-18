@@ -161,13 +161,11 @@ def load_frequency_words(
 
         # 处理全局过滤区域
         if current_section == "GLOBAL_FILTER":
-            # 直接添加所有非空行到全局过滤列表
             for line in lines:
-                # 忽略特殊语法前缀，只提取纯文本
                 if line.startswith(("!", "+", "@")):
-                    continue  # 全局过滤区不支持特殊语法
+                    continue
                 if line:
-                    global_filters.append(line)
+                    global_filters.append(_parse_word(line))
             continue
 
         # 处理词组区域
@@ -269,9 +267,9 @@ def matches_word_groups(
 
     title_lower = title.lower()
 
-    # 全局过滤检查（优先级最高）
+    # 全局过滤检查（优先级最高，支持正则）
     if global_filters:
-        if any(global_word.lower() in title_lower for global_word in global_filters):
+        if any(_word_matches(gf, title_lower) for gf in global_filters):
             return False
 
     # 如果没有配置词组，则匹配所有标题（支持显示全部新闻）
